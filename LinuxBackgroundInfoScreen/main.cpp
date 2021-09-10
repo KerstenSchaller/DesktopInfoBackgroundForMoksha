@@ -13,12 +13,8 @@
 #include <thread>
 #include <chrono>
 
-
-
 using namespace cimg_library;
 using namespace std;
-
-
 
 void createImage(string text, string path)
 {
@@ -49,38 +45,64 @@ void createImage(string text, string path)
 }
 
 // exec bash command and get return value as string
-std::string exec(const char* cmd) {
-    std::array<char, 128> buffer;
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return result;
+std::string exec(const char *cmd)
+{
+  std::array<char, 128> buffer;
+  std::string result;
+  std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+  if (!pipe)
+  {
+    throw std::runtime_error("popen() failed!");
+  }
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+  {
+    result += buffer.data();
+  }
+  return result;
 }
 
-int main()
+/*
+ * Erase First Occurrence of given  substring from main string.
+ */
+string eraseSubStr(std::string &mainStr, const std::string &toErase)
+{
+  // Search for the substring in string
+  size_t pos = mainStr.find(toErase);
+  if (pos != std::string::npos)
+  {
+    // If found then erase it from string
+    mainStr.erase(pos, toErase.length());
+  }
+  return mainStr;
+}
+
+int main(int argc, char *argv[])
 {
   while (true)
   {
     string statusText = exec("nordvpn status");
-    //string directory = exec("pwd");
-    char tmp[256];
-    getcwd(tmp, 256);
-    string directory = tmp;
+
+    string directory;
+    if (argc > 1)
+    {
+      directory = argv[1];
+    }
+    else
+    {
+      cout << "Error: No Filepath given" << endl;
+      cout << "Please specify path where a temp file can be saved." << endl;
+      return EXIT_FAILURE;
+    }
+    string workDir = argv[0];
+    workDir = eraseSubStr(workDir, "/DesktopbackgroundInfoScreen");
+
     string filepath = directory + "/info.bmp";
-    cout << filepath << endl;
     createImage(statusText, filepath);
-    //system("./setWallpaper /home/ks/Desktop/LinuxBackgroundInfoScreen/info.bmp manual >/dev/null 2>&1");
-    string cmdstring = "./setWallpaper " + filepath + " manual >/dev/null 2>&1"; 
+    string cmdstring = workDir + "/setWallpaper " + filepath + " manual >/dev/null 2>&1";
     system(cmdstring.c_str());
-    
+
     this_thread::sleep_for(chrono::seconds(2));
   }
 
-
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
