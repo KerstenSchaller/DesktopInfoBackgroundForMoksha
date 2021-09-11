@@ -12,7 +12,7 @@ make
 ## Install:
 Copy the executable "DesktopbackgroundInfoScreen" and the script "setWallpaper" to some place of your choice.
 Write some startup script for you system calling the executable with full path like this
-<full path>/DesktopbackgroundInfoScreen <path temp file>
+/<full path/</DesktopbackgroundInfoScreen /<path temp file/>
 where <path temp file> is a folder where a an image can be saved which is used as a wallpaper. 
 
 Install and enable module slideshow.
