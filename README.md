@@ -23,6 +23,8 @@ Install and enable module slideshow.
 1. notify-send , expected path /usr/bin/notify-send
 installable with
 sudo apt install libnotify-bin
+   
+2. CImg -> already included as header
 
 2. On Bodhi Linux it works in conjunction with module slide show.
    The programm itself updated the wallpaper sources while slideshow is responsible for updating the screen.
