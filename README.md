@@ -4,9 +4,9 @@ It updates the screen every 20 seconds or if the vpn status changes.
 Tested on Bodhi Linux
 
 ## Build
-cmake . -bbuild
-cd build
-make
+cmake . -bbuild   
+cd build  
+make  
 
 
 ## Install:
